@@ -1,78 +1,65 @@
 import axios from 'axios';
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+import { API_URL } from './initProperties';
+import Cookies from 'js-cookie';
 
 export const API = {
-  get: async (endPoint, input) => {
+  post : async function (endPoint, input) {        
     let headers = {};
-
-    let token = localStorage.getItem("token");
-    if (token !== null)
+    let token = Cookies.get("token");
+    
+    if(token !== null)
       headers.Authorization = `Bearer ${token}`;
 
-    let config = {
-      headers: headers,
-      params: input
-    };
-
-    try {
-      const response = await axios.get(BASE_URL + endPoint, config);
+    return await axios.post(API_URL + endPoint, input, { headers: headers })
+    .then(response => {
       return response;
-    } catch (error) {
-      return error.response;
-    }
+    }).catch(error => {
+      throw error.response;
+    });
   },
 
-  post: async (endPoint, input) => {
+  get : async function (endPoint) {        
     let headers = {};
-    let token = localStorage.getItem("token");
-    if (token !== null)
+    let token = Cookies.get("token");
+    
+    if(token !== null)
       headers.Authorization = `Bearer ${token}`;
 
-    try {
-      const response = await axios.post(BASE_URL + endPoint, input, { headers: headers });
+    return await axios.get(API_URL + endPoint, { headers: headers })
+    .then(response => {
       return response;
-    } catch (error) {
-      return error.response;
-    }
+    }).catch(error => {
+      throw error.response;
+    });
   },
 
-  put: async (endPoint, input) => {
+  put : async function (endPoint, input) {        
     let headers = {};
-
-    let token = localStorage.getItem("token");
-    if (token !== null)
+    let token = Cookies.get("token");
+    
+    if(token !== null)
       headers.Authorization = `Bearer ${token}`;
-    let config = {
-      headers: headers,
-      params: input
-    };
 
-    try {
-      const response = await axios.put(BASE_URL + endPoint, input, config);
+    return await axios.put(API_URL + endPoint, input, { headers: headers })
+    .then(response => {
       return response;
-    } catch (error) {
-      return error.response;
-    }
+    }).catch(error => {
+      throw error.response;
+    });
   },
 
-  delete: async (endPoint, input) => {
-    let headers = {};
-    let token = localStorage.getItem("token");
-
-    if (token !== null)
+  delete : async function (endPoint) {
+    let headers = {};        
+    let token = Cookies.get("token");
+    
+    if(token !== null)
       headers.Authorization = `Bearer ${token}`;
 
-    let config = {
-      headers: headers,
-      params: input
-    };
-
-    try {
-      const response = await axios.delete(BASE_URL + endPoint, config);
+    return await axios.delete(API_URL + endPoint, { headers: headers })
+    .then(response => {
       return response;
-    } catch (error) {
-      return error.response;
-    }
+    }).catch(error => {
+      throw error.response;
+    });
   },
 }

@@ -1,9 +1,9 @@
-import HomeFeature from '@/features/home'
+import DashboardPage from '@/module/dashboard'
 
 export default function Home() {
   return (
     <>
-      <HomeFeature />
+      <DashboardPage />
     </>
   )
 }
